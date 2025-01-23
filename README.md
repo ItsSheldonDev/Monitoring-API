@@ -1,54 +1,50 @@
+# Monitoring API
 
-# Monitoring API 📣
+Simple API to monitor web services status.
 
-This api is used to monitor all my services and display them on Bettestack.
+## Features
+- Check service status
+- Get response times
+- Monitor multiple endpoints
+- Service history
+- Rate limiting and security
 
-
-## API Reference
-
-#### Get service status
-
-```http
-  HTTP GET /check?service=YourService
+## Configuration
+Place config.json in monitoring folder:
+```json
+{
+  "services": [
+    {
+      "name": "example",
+      "url": "https://example.com"
+    }
+  ]
+}
 ```
 
-| Parameter |  Result                |
-| :-------- |  :------------------------- |
-| `YourService` |  **200** or **500** |
-
-
-
-
-
-## Installation 🖥️
-
-Install with npm ✨
-
+## Docker
 ```bash
-  git clone https://github.com/Its-SheldonDev/Monitoring-API
-  cd Monitoring-API
-  npm install
-  npm run start
+docker run -d \
+  -p 3000:3000 \
+  -v /path/to/config.json:/app/config.json \
+  sheldondev/monitoring-api
 ```
 
-    
-## Deployment 📜
-
-To deploy this project with docker run
-
-```bash
-  docker build -t monitoring .
-  docker run -p 3000:3000 -v your/config/path/config.json:/app/config.json monitoring
-
+## Docker Compose
+```yaml
+version: "3.8"
+services:
+  monitoring-api:
+    image: sheldondev/monitoring-api
+    container_name: monitoring-api
+    volumes:
+      - /opt/stacks/network_local/monitoring/config.json:/app/config.json
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
 ```
 
-
-## Authors 🖐️
-
-- [Its-SheldonDev](https://www.github.com/Its-SheldonDev)
-
-
-## Support
-
-For support, email contact@sheldon-dev.fr or join our [Discord](https://discord.sheldon-dev.fr).
-
+## API Endpoints
+```
+- GET /check/:service - Check specific service
+```
